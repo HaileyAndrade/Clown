@@ -4,7 +4,9 @@
     "dependencies": {
         "device": "*",
         "arcade-story": "github:microsoft/arcade-storytelling#v1.0.3",
-        "arcade-background-scroll": "github:microsoft/arcade-background-scroll#6cfbf925b9a4d5ddf3e1078e6cf6ca6a1aebb301"
+        "arcade-background-scroll": "github:microsoft/arcade-background-scroll#6cfbf925b9a4d5ddf3e1078e6cf6ca6a1aebb301",
+        "tilemaps": "github:microsoft/pxt-tilemaps#v1.12.0",
+        "darts": "*"
     },
     "files": [
         "main.blocks",
@@ -12,7 +14,9 @@
         "README.md",
         "assets.json",
         "images.g.jres",
-        "images.g.ts"
+        "images.g.ts",
+        "tilemap.g.jres",
+        "tilemap.g.ts"
     ],
     "testFiles": [
         "test.ts"
@@ -24,5 +28,23 @@
     "supportedTargets": [
         "arcade"
     ],
-    "preferredEditor": "blocksprj"
+    "preferredEditor": "blocksprj",
+    "palette": [
+        "#000000",
+        "#ffffff",
+        "#d45362",
+        "#e8958b",
+        "#cc8945",
+        "#f5dc8c",
+        "#417d53",
+        "#5dd48f",
+        "#5162c2",
+        "#6cadeb",
+        "#b56edd",
+        "#8f3f29",
+        "#612431",
+        "#c0fac2",
+        "#24325e",
+        "#1b1221"
+    ]
 }
