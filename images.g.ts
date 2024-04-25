@@ -60,6 +60,25 @@ namespace myImages {
 . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . 
 `;
+            case "image4":
+            case "myImage2":return img`
+e e e e e e e e e e e e e e e e 
+e e e e e e e e e e 1 1 1 e e e 
+e e e e 1 1 1 1 1 1 1 1 1 1 e e 
+e e e e 1 1 1 f f f f 1 1 1 e e 
+e e e e e 1 1 1 1 1 1 1 1 1 e e 
+e e e e e e 1 1 f f 1 1 1 1 e e 
+e e e e e e 1 1 1 1 f f f 1 1 e 
+e e e e e 1 1 1 1 1 1 1 1 1 1 e 
+e e e e e 1 1 1 1 1 1 1 1 e e e 
+e e e e e 1 1 f f f 1 1 1 e e e 
+e e e e 1 1 1 1 1 1 1 1 1 1 e e 
+e e e e 1 1 f f f f f 1 1 1 e e 
+e c c c 1 1 1 1 1 1 1 1 1 c c c 
+e c c c c c c c c c c c c c c c 
+e e e e e e e e e e e e e e e e 
+e e e e e e e e e e e e e e e e 
+`;
         }
         return null;
     })

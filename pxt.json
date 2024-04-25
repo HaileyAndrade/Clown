@@ -1,12 +1,13 @@
 {
-    "name": "Clownz",
+    "name": "Clownz - Copy",
     "description": "",
     "dependencies": {
         "device": "*",
         "arcade-story": "github:microsoft/arcade-storytelling#v1.0.3",
         "arcade-background-scroll": "github:microsoft/arcade-background-scroll#6cfbf925b9a4d5ddf3e1078e6cf6ca6a1aebb301",
         "tilemaps": "github:microsoft/pxt-tilemaps#v1.12.0",
-        "darts": "*"
+        "darts": "*",
+        "controller": "*"
     },
     "files": [
         "main.blocks",
@@ -22,7 +23,7 @@
         "test.ts"
     ],
     "targetVersions": {
-        "target": "1.12.47",
+        "target": "1.12.51",
         "targetId": "arcade"
     },
     "supportedTargets": [
