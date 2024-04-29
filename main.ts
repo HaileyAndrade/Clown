@@ -9,6 +9,7 @@ namespace SpriteKind {
     export const WaterKey = SpriteKind.create()
     export const Key = SpriteKind.create()
     export const creepy = SpriteKind.create()
+    export const Code = SpriteKind.create()
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
@@ -48,9 +49,12 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . f f f f f f . . . . . 
         . . . . . . . . . f f . . . . . 
         `],
-    500,
+    100,
     true
     )
+})
+sprites.onOverlap(SpriteKind.Chris, SpriteKind.Code, function (sprite, otherSprite) {
+    story.spriteSayText(Another_Code, "1003")
 })
 function Spawn_Clownz () {
     for (let value of tiles.getTilesByType(assets.tile`myTile26`)) {
@@ -98,7 +102,7 @@ function Spawn_Clownz () {
 }
 scene.onOverlapTile(SpriteKind.Chris, assets.tile`myTile35`, function (sprite, location) {
     game.splash("YOU MUST ENTER CODE TO RECIEVE PLIERS")
-    if (game.askForNumber("") == 1234) {
+    if (game.askForNumber("") == 3012) {
         game.splash("YOU HAVE RECIEVE PLIERS YOU OPENED APART OF THE GATE")
         Pliers += 1
     }
@@ -109,19 +113,19 @@ scene.onOverlapTile(SpriteKind.Chris, assets.tile`myTile35`, function (sprite, l
 function Balloon () {
     if (destroy == 1) {
         Complete_next += 1
-        BACK9()
+        Escape(6)
     }
     if (_2destroy == 1) {
         Complete_next += 1
-        BACK9()
+        Escape(6)
     }
     if (_3destroy == 1) {
         Complete_next += 1
-        BACK9()
+        Escape(6)
     }
     if (_4destroy == 1) {
         Complete_next += 1
-        BACK9()
+        Escape(6)
     }
 }
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -146,7 +150,43 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         Balloon()
     }
 })
+function Escape (num: number) {
+    if (Complete_next == 6) {
+        sprites.destroy(Gun_)
+        scene.cameraFollowSprite(Player_Christopher)
+        tiles.setCurrentTilemap(tilemap`level1`)
+        game.splash("You've unlocked a part of the gate")
+        Spawn_Clownz()
+        if (Found_key == 1) {
+            if (Pliers == 1) {
+                if (num == 6) {
+                    for (let value22 of tiles.getTilesByType(assets.tile`myTile22`)) {
+                        tiles.setWallAt(value22, false)
+                    }
+                }
+            }
+        }
+    }
+}
 function Water_key () {
+    Another_Code = sprites.create(img`
+        e e e e e e e e e e e e e e e e 
+        e e e e e e e e e e e e e e e e 
+        e e e e e e e e e e e e e e e e 
+        e e e e e e e e e e e e e e e e 
+        f f f f f f f f f f f f e e e e 
+        e e e e e e e e e e e e e e e e 
+        e e e e e e e e e e e e e e e e 
+        e e e e e e e e e e e e e e e e 
+        e e e e e e e f f f f f f f f e 
+        e e e e e e e e e e e e e e e e 
+        e e e e e e e e e e e e e e e e 
+        e e e e e e e e e e e e e e e e 
+        e e e f f f f f e e e e e e e e 
+        e e e e e e e e e e e e e e e e 
+        e e e e e e e e e e e e e e e e 
+        e e e e e e e e e e e e e e e e 
+        `, SpriteKind.Code)
     for (let value2 of tiles.getTilesByType(assets.tile`myTile27`)) {
         Water_Key = sprites.create(img`
             . . . . . . . . . . . . . . . . 
@@ -167,7 +207,8 @@ function Water_key () {
             . . . . . . . . . . . . . . . . 
             `, SpriteKind.WaterKey)
         tiles.placeOnTile(Water_Key, value2)
-        tiles.setTileAt(value2, assets.tile`myTile0`)
+        tiles.setTileAt(value2, assets.tile`myTile39`)
+        tiles.placeOnRandomTile(Another_Code, assets.tile`myTile39`)
     }
 }
 controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -208,7 +249,7 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . f f f f f f f f . . . . 
         . . . . f f f . f f . . . . . . 
         `],
-    500,
+    100,
     true
     )
 })
@@ -257,7 +298,7 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . f f f f f f f f . . . . 
         . . . . . . f f . f f f . . . . 
         `],
-    500,
+    100,
     true
     )
 })
@@ -303,28 +344,17 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . f f f f f f . . . . . 
         . . . . . . . . . f f . . . . . 
         `],
-    500,
+    100,
     true
     )
 })
-function BACK9 () {
-    if (Complete_next == 6) {
-        sprites.destroy(Gun_)
-        scene.cameraFollowSprite(Player_Christopher)
-        tiles.setCurrentTilemap(tilemap`level1`)
-        game.splash("You've unlocked a part of the gate")
-        Spawn_Clownz()
-        if (Found_key == 1) {
-            if (Pliers == 1) {
-                for (let value22 of tiles.getTilesByType(assets.tile`myTile22`)) {
-                    tiles.setWallAt(value22, false)
-                }
-            }
-        }
-    }
-}
 scene.onOverlapTile(SpriteKind.Chris, assets.tile`myTile22`, function (sprite, location) {
-    game.gameOver(true)
+    game.splash("What is the Code?")
+    if (game.askForNumber("") == 1003) {
+        sprites.destroyAllSpritesOfKind(SpriteKind.Chris)
+        sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
+        game.gameOver(true)
+    }
 })
 scene.onOverlapTile(SpriteKind.Chris, assets.tile`myTile31`, function (sprite, location) {
     for (let word of tiles.getTilesByType(assets.tile`myTile32`)) {
@@ -336,11 +366,11 @@ sprites.onOverlap(SpriteKind.Chris, SpriteKind.Enemy, function (sprite, otherSpr
     sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
     music.play(music.melodyPlayable(music.spooky), music.PlaybackMode.LoopingInBackground)
     Creepy.setFlag(SpriteFlag.Invisible, false)
-    pause(5000)
+    pause(2000)
     game.gameOver(false)
 })
 sprites.onOverlap(SpriteKind.Chris, SpriteKind.Key, function (sprite, otherSprite) {
-    story.spriteSayText(Key_code, "1234")
+    story.spriteSayText(Key_code, "3012")
 })
 scene.onOverlapTile(SpriteKind.Chris, assets.tile`myTile17`, function (sprite, location) {
     scene.setBackgroundColor(1)
@@ -618,6 +648,9 @@ scene.onOverlapTile(SpriteKind.Chris, assets.tile`myTile17`, function (sprite, l
         .........................................................................................
         `, SpriteKind.B4)
     B42.setPosition(105, 36)
+    for (let NEW_TILE of tiles.getTilesByType(assets.tile`myTile17`)) {
+        tiles.replaceAllTiles(assets.tile`myTile17`, assets.tile`myTile10`)
+    }
 })
 let Key_code: Sprite = null
 let Water_Key: Sprite = null
@@ -628,6 +661,7 @@ let B12: Sprite = null
 let Gun_: Dart = null
 let Speed_: number[] = []
 let Clownz: Sprite = null
+let Another_Code: Sprite = null
 let Player_Christopher: Sprite = null
 let _4destroy = 0
 let _3destroy = 0
@@ -1412,65 +1446,65 @@ scroller.setLayerImage(scroller.BackgroundLayer.Layer4, img`
     ccccccccccccccccccccccccf22222222222222222222222224dddddddddddddddddddddddddd22222222244222ddddddddddddddddddddddddddddddd222222222222222222222222222222444fcccc
     cccccccccccccccccccccccf22222222222222222222222224ddddddddddddddddddddddddddd22222222244222ddddddddddddddddddddddddddddddddd2222222222222222222222222222244fcccc
     ccccccccccccccccccccccff2222222222222222222224444ddddddddddddddddddddddddddd222222222444222ddddddddddddddddddddddddddddddddddd22222222222222222222222222224fcccc
-    ccccccccccccccccccccccf22222222222222222222442dddddddddddddddddddddddddddddd22222224242422dddddddddddddddddddddddddddddddddddddd2222222222222222222222222244cccc
-    cccccccccccccccccccccf22222222222222222222422dddddddddddddddddddddddddddddd222222224244422dddddddddddddddddddddddddddddddddddddddd22222222222222222222222244fccc
-    cccccccccccccccccccccf222222222ffff22222244dddddddddddddddddddddddddddddddd222222224244422dddddddddddddddddddddddddddddddddddddddddd222222222222222222222224fccc
-    cccccccccccccccccccff2222222fff1111ff22224ddddddddddddddddddddddddddddddddd2222222242244222ddddddddddddddddddddddddddddddddddddddddddddffffff2222222222222244ccc
-    cccccccccccccccccccf2222222f111111111f224ddddddddddddddddddddddddddddddddddd222222224244422dddddddddddddddddddddddddddddddddddddddddddf111111ff22222222222244ccc
-    ccccccccccccccccccf222222ff11111111111f24ddddddddddddddddddddddddddddddddddd222222224244422dddddddfffffffffddddddddddddddddddddddddfff111111111fff2222222222422c
-    cccccccccccccccccf22222ff11111111111111fddddddddddddddddddddddddfffffffffffd22222222424442dddddddf111111111ffdddddddddddddddddddddf111111111111111fff22222224422
-    ccccccccccccccccf22222f11111111111111111fdddddddddddddddddddddf1111111111f1f22222222424442ddddddf111111111111ffddddddddddddddddddff11111111111111111ff2222224442
-    ccccccccccccccff22222f1111111111111111111fdddddddddddddddddddf1111111111111f22222222424442dddddf111111111111111fddddddddddddddddf11111111111111111111f2222224442
-    ccccccccccccff2222222f11111111111111111111fddddddddddddddddddf11111111111111f22222224244242ddddf1111111111111111fddddddddddddddf1111111111111111111111f222224244
-    cccccccccccff22222222f11111111111111111111fdddddddddddddddddf111111111111111f22222224244242dddf111111111111111111fdddddddddddddf1111111111111111111111f222224222
-    ccccccccccf2222222222f11111111111111111111fdddddddddddddddddf111111111111111f22222222244242dddf1111111111111111111fddddddddddddf1111111111111111111111f222224242
-    ccccccccff22222222222f11111111111111111111fddddddddddddddddf1111111111111111f2222222224224ddddf1111111111111111111fddddddddddddf1111111111111111111111f222222424
-    ccccccfff222222222222f11111111111111111111fddddddddddddddddf1111111111111111f2222222224224ddddf11111111111111111111fdddddddddddf11111111111111111111111f22222424
-    ccccfff22222222222222f11111111111111111111fddddddddddddddddf1111111111111111f2222222224224ddddf11111111111111111111fddddddddddddf1111111111111111111111f22222224
-    ccfff2222222222222222f11111111111111111111fddddddddddddddddf1111111111111111f22222222222244dddf11111111111111111111fddddddddddddf1111111111111111111111f22222222
-    ff2222222222222222222f11111111111111111111fddddddddddddddddf1111111111111111f22222222222244dddf11111111111111111111fddddddddddddff111111111111111111111f22222222
-    22222222222222222222222111111111111111111fdddddddddddddddddf1111111111111111f22222222222244dddf11111111111111111111fdddddddddddddf111111111111111111111f22222222
-    22222222222222222222222f111111111111111ffddddddddddddddddddf1111111111111111f22222222222244dddf1111111111111111111fddddddddddddddf111111111111111111111f22222222
-    2222222222222222222222222111111111111ffddddddddddddddddddddf1111111111111111f22222222222224dddf1111111111111111111fdddddddddddddddf11111111111111111111f22222222
-    2222222222222222222222442f1111111ffffddddddddddddddddddddddf111111111111111f222222222222224ddddf111111111111111111fddddddddddddddddff111111111111111111f22222222
-    2222222222222222222222442dfffffffdddddddddddddddddddddddddddf11111111111111f2222222222222242ddddf1111111111111111fddddddddddddddddddff1111111111111111f222222222
-    2222222222222222222222442ddddddddddddddddddddddddddddddddddddf111111111111f12222222222222242dddddf1111111111111ffdddddddddddddddddddddf1111111111111ffd222222222
-    2222222222222222222224442dddddddddddddddddddddddddddddddddddddff111111111f122222222222222242ddddddf1111111111ffddddddddddddddddddddddddff111111111ffddd222222222
-    2222222222222222222244442dddfdddddddddddddddddddddddddddddddddddfff1111ffd222222222222222222dddddddffffffffffddddddddddddddddddddddddddddffffffffffdddd222222222
-    2222222222222222222244442dddfddddddddddddddddddddddddddddddddddddddffffddd222222222222222222ddddddddddfddddddddddddddddddddddddddddddddddddddffffdddddd222222222
-    2222222222222222222244444dddfddddddddddddddddddddddddddddddddddddddddddddd222222222222222222ddddddddddfddddddddddddddddddddddddddddddffffffffffddddddddd22222222
-    2222222222222222222244444dddfddddddddddddddddddddddddddddddddddddddddddddd222222222222222222ddddddddddfdddddddddddddddddddddddddddddddddddddddfddddddddd22222222
-    2222222222222222222244442dddfddddddddddddddddddddddddddddddddddddddddddddd222222222222222222ddddddddddfdddddddddddddddddddddddddddddddddddddddfddddddddd22222222
-    2222222222222222222244442dddfddddddddddddddddddddddddddddddddddddddddddddd222222222222222222ddddddddddfdddddddddddddddddddddddddddddddddddddddfddddddddd22222222
-    2222222222222222222244422dddfddddddddddddddddddddddddddddddddddddddddfdddd222222222222222222ddddddddddfdddddddddddddddddddddddddddddddddddddddfdddddddddd2222222
-    222222222222222222224442ddddfddddddddddddddddddddddddddddddddddddddddfdddd2222222222222222222dddddddddfdddddddddddddddddddddddddddddddddddddddfddddddddddd222222
-    222222222222222222244422ddddfddddddddddddddddddddddddddddddddddddddddfddd22222222222222222222ddddddddddfddddddddddddddddddddddddddddddddddddddfddddddddddd222222
-    222222222222222222244222ddddfddddddddddddddddddddddddddddddddddddddddfddd222222222222222222222dddddddddfddddddddddddddddddddddddddddddddddddddfddddddddddd222222
-    222222222222222222222ff2dddddfdddddddddddddddddddddddddddddddddddddddfddd222222222222222222222dddddddddfddddddddddddddddddddddddddddddddddffffffffffffffdd222222
-    22222222222222222222222dfffffffdddddddddddddddddddddddddddfddddddddddfdd22222222222222222222222ddddddddfdddddddfffffddddddddddddddddddddddddddfddddddddddd222222
-    22222222222222222222222ddddddfdfffffffffffffffffffffffffffdddddddddddfdd22222222222222222222222ddddddddffffffffdddddddddddddddddddddddddddddddfddddddddddd222222
-    22222222222222222222222ddddddfdddddddddddddddddddddddddddddddddddddddfdd22222222222222222222222ddfffffffddddddddddddddddddddddddddddddddddddddfdddddddddddd22222
-    2222222222222222222222dddddddfdddddddddddddddddddddddddddddddddddddddfdd22222222222222222222222ffddddddfddddddddddddddddddddddddddddddddddddddfdddddddddddd22222
-    2222222222222222222222dddddddfdddddddddddddddddddddddddddddddddddddddfdd2222222f22222222222222222ddddddfddddddddddddddddddddddddddddddddddddddfdddddddddddd22222
-    222222222222222222222ddddddddfdddddddddddddddddddddddddddddddddddddddfdfffffff2f22222222222222222ddddddfddddddddddddddddddddddddddddddddddddddfdddddddddddd22222
-    222222222222222222222ddddddddfdddddddddddddddddddddddddddddddddddddffff22222222222222222222222222ddddddfddddddddddddddddddddddddddddddddddddddfdddddddddddd22222
-    222222222222222222222ddddddddfdddddddddddddddddddddddddddddddddddffddf2222222222222222222222222222dddddfddddddddddddddddddddddddddddddddddddddfddddddddddddd2222
-    222222222222222222222ddddddddfdddddddddddddddddddddddddddddddddddddddf2222222222222222222222222222dddddfddddddddddddddddddddddddddddddddddddddfddddddddddddd2222
-    22222222222222222222dddddddddfdddddddddddddddddddddddddddddddddddddddf22222222222222222222222222222ddddfddddddddddddddddddddddddddddddddddddddfddddddddddddd2222
-    22222222222222222222ddddddddfddddddddddddddddddddddddddddddddddddddddf22222222222222222222222222222ddddfddddddddddddddddddddddddddddddddddddddffdddddddddddd2222
-    22222222222222222222ddddddffdfdddddddddddddddddddddddddddddddddddddd2f222222222222222222222222222222dddfdddddddddddddddddddddddddddddddddddddfdfddddddddddddd222
-    2222222222222222222ddddddfdddfddddddddddddddddddddddddddddddddddddd22f222222222222222222222222222222dddffddddddddddddddddddddddddddddddddddffdddfdddddddddddd222
-    2222222222222222222dddddffdddfdddddddddddddddddddddddddddddddddddd2222f222222222222222222222222222222ddffddddddddddddddddddddddddddddddddddfdddddfddddddddddd222
-    2222222222222222222ddddffddddfdddddddddddddddddddddddddddddddddddd2222f222222222222222222222222222222dfddfddddddddddddddddddddddddddddddddffdddddfdddddddddddd22
-    222222222222222222dddffdddddddfdddddddddddddddddddddddddddddddddd22222f222222222222222222222222222222fdddfddddddddddddddddddddddddddddddddfdddddddfddddddddddd22
-    222222222222222222dddfddddddddfdddddddddddddddddddddddddddddddddd22222f22222222222222222222222222222f22ddfdddddddddddddddddddddddddddddddffddddddddfdddddddddd22
-    222222222222222222dddddddddddddfdddddddddddddddddddddddddddddddd22222f2f222222222222222222222222222f222dddfdddddddddddddddddddddddddddddddddddddddddfffddddddd22
-    22222222222222222dddddddddddddddfdddddddddddddddddddddddddddddd222222f2f22222222222222222222222222f22222dddfdddddddddddddddddddddddddddddddddddddddddddfdddddd22
-    22222222222222222dddddddddddddddfdddddddddddddddddddddddddddddd22222f2222222222222222222222222222f222222dddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-    2222222222222222dddddddddddddddddfdddddddddddddddddddddddddddd222222f222222222222222222222222222222222222ddddddddddddddddddddddddddddddddddddddddddddddddddddddd
-    2222222222222222dddddddddddddddddfddddddddddddddddddddddddddd222222222222222222222222222222222222222222222dddddddddddddddddddddddddddddddddddddddddddddddddddddd
-    2222222222222222ddddddddddddddddddfddddddddddddddddddddddddd2222222222222222222222222222222222222222222222dddddddddddddddddddddddddddddddddddddddddddddddddddddd
-    222222222222222ddddddddddddddddddddddddddddddddddddddddddddd22222222222222222222222222222222222222222222222ddddddddddddddddddddddddddddddddddddddddddddddddddddd
+    ccccccccccccccccccccccf22222222222222222222442dddddddddddddddddddddddddddddd22222224242422dddddddddddddddddddddddddddddddddddddd222222222fff2222222222222244cccc
+    cccccccccccccccccccccf22222222222222222222422dddddddddddddddddddddddddddddd222222224244422dddddddddddddddddddddddddddddddddddddddd222222fffff222222222222244fccc
+    cccccccccccccccccccccf222222222222222222244dddddddddddddddddddddddddddddddd222222224244422dddddddddddddddddddddddddddddddddddddddddd222ffffffff2222222222224fccc
+    cccccccccccccccccccf2222222222222222222224ddddddddddddddddddddddddddddddddd2222222242244222dddddddddddddddddddddddddddddddddddddddddddfffffffffff222222222244ccc
+    cccccccccccccccccccf222222222222222222222ddddddddddddddddddddddddddddddddddd222222224244422ddddddddffffffffffddddddddddddddddddddddddffffffffffffffff22222244ccc
+    ccccccccccccccccccf2222222222222222222222ddddddddddddddddddddddddddddddddddd222222224244422ddddddfffffffffffffffdddddddddddddddddddfffffffffffffffffff222222422c
+    cccccccccccccccccf2222222222222222222222ddddddddddddddddddddddddfffffffffffd22222222424442ddddddfffffffffffffffffddddddddddddddddfffffffffffffffffffffff22224422
+    ccccccccccccccccf22222222222ffffffffffffddddddddddddddddddddddffffffffffffff22222222424442dddfffffffffffffffffffffddddddddddddddffffffffffffffffffffffffff224442
+    ccccccccccccccff2222222222ffffffffffffffdddddddddddddddddddddfffffffffffffff22222222424442ddffffffffffffffffffffffddddddddddddddfffffffffffffffffffffffffff24442
+    ccccccccccccff2222222222ffffffffffffffffdddddddddddddddddddddffffffffffffffff22222224244242dffffffffffffffffffffffdddddddddddddfffffffffffeeeefffffffffffffff244
+    cccccccccccff22222222222ffffffffffffffffddddddddddddddddddddfffffffffffffffff22222224244242fffffffffffffffffffffffffffddddddddffffffffffffeeeeefffffffffffffff22
+    ccccccccccf222222222222ffffffffffffffffffdddddddddddddddddddfffffffffffffffff22222222244242fffffffffffffffffffffffffffddddddddffffffffffffeeeeeffffffffffffffff2
+    ccccccccff2222222222222ffffffffffffffffffddddddddddddddddddfffffffffffffffffff222222224224dfffffffffffffffffffffffffffddddddddfffffffffffffeeeefffffffffffffffff
+    ccccccfff2222222222222fffffffffffffffffffddddddddddddddddddfffffffffffffffffff222222224224dffffffffffffffffffffffffffddddddddfffffffffffffffeeefffffffffffffffff
+    ccccfff222222222222222fffffffffffffffffffddddddddddddddddddfffffffffffffffffff222222224224dfffffffffffffffffffffffffdddddddddfffffffffffffffffffffffffffffffffff
+    ccfff2222222222222222ffffffffffffffffffffddddddddddddddddddfffffffffffffffffff2222222222244fffffffffffffffffffffffffddddddddffffffffffffffffffffffffffffffffffff
+    ff2222222222222222222fffffffffffffffffffdddddddddddddddddddfffffffffffffffffff2222222222244fffffffffffffffffffffffffddddddddffffffffffffffffffffffffffffffffffff
+    222222222222222222222fffffffffffffffffffdddddddddddddddddddfffffffffffffffffff22222222222fffffffffffffffffffffffffffdddddddfffffffffffffffffffffffffeeefffffffff
+    222222222222222222222fffffffffffffffffffdddddddddddddddddddffffffffffffffffff222222222222fffffffffffffffffffffffffffddddddfffffeeeffffffffffffffffffeeeffffffff2
+    222222222222222222222fffffffffffffffffffdddddddddddddddddddffffffffffffffffff222222222222fffffffffffffffffffffffffffddddddfffffeeeeeeffffffffffffffeeeeffffffff2
+    222222222222222222222fffffffffffffffffffdddddddddddddddddddffffffffffffffffff222222222222fffffffffffffffffffffffffffddddddfffffeeeeeeeeeeeffffffffeeeeefffffff22
+    222222222222222222222fffffffffffffffffffddddddddddddddddddddffffffffffffffff2222222222222fffffffffffffffffffffffffffddddddffffffeeeeeeeeeefffffffeeeeefffffff222
+    22222222222222222222ffffffffffffffffffffdddddddddddddddddddddfffffffffffffff2222222222222fffffffffffffffffffffffffffddddddffffffffeeeeeeeefffffffeeeeeffffff2222
+    22222222222222222222fffffffffffffffffffddddddddddddddddddddddfffffffffffffff2222222222222fffffffffffffffffffffffffffddddddfffffffffffffffffffffffeeeeffffff22222
+    2222222222222222222ffffffffffffffffffffddddddddddddddddddddddffffffffffffff22222222222222fffffffffffffffffffffffffffdddddddfffffffffffffffffffffffffffffff222222
+    222222222222222222224ffffffffffffffffffdddddddddddddddddddddddffffffffffff22222222222222222fffffffffffffffffffffffffddddddddddddffffffffffffffffffffffff22222222
+    222222222222222222224fffffffffffffffffddddddddddddddddddddddddddffffffffdd222222222222222222fffffffffffffffffffffffdddddddddddddddddffffffffffffffffffff22222222
+    2222222222222222222244fffffffffffffffddddddddddddddddddddddddddfffffffffdd222222222222222222dffffffffffffffffffffffdddddddddddddddddddfffffffffffffffffd22222222
+    22222222222222222222444fffffffffffffddddddddddddddddddddddddddffffffffffff222222222222222222ddfffffffffffffdddddddddddddddddddddddddddfffffffffffffffffd22222222
+    2222222222222222222244ffffffffffffffdddddddddddddddddddddddddfffffffffffff222222222222222222ddddddffffffffffddddddddddddddddddddddddddffffffffffffffffffff222222
+    2222222222222222222244fffffffffffffddddddddddddddddddddddddddffffffffffffff22222222222222222ddddddfffffffffffddddddddddddddddddddddffffffffffffffffffffffff22222
+    222222222222222222224fffffffffffffffddddddddddddddddddddddddfffffffffffffff222222222222222222dffffffffffffffffffdddddddddddddddddddffffffffffffffffffffffff22222
+    2222222222222222222ffffffffffffffffffdddddddddddddddddddddddfffffffffffffff22222222222222222ffffffffffffffffffffffdddddddddddddddddfffffffffffffffffffffffff2222
+    222222222222222222fffffffffffffffffffddddddddddddddddddddddfffffffffffffffff222222222222222ffffffffffffffffffffffffdddddddddddddddffffffffffffffffffffffffff2222
+    22222222222222222fffffffffffffffffffffdddddddddddddddddddddfffffffffffffffff222222222222222fffffffffffffffffffffffffddddddddddddddffffffffffffffffffffffffffff22
+    22222222222222222ffffffffffffffffffffffdddddddddddddddddddfffffffffffffffffff22222222222222fffffffffffffffffffffffffdddddddddddddfffffffffffffffffffffffffffff22
+    22222222222222222fffffffffffffffffffffffdddddddddddddddddddffffffffffffffffff2222222222222ffffffffffffffffffffffffffdddddddddddddfffffffffffffffffffffffffffff22
+    22222222222222222ffffffffffffffffffffffddddddddddddddddddddffffffffffffffffff2222222222222ffffffffffffffffffffffffffddddddddddddffffffffffffffffffffffffffffff22
+    22222222222222222fffffffffffffffffffffffdddddddddddddddddddffffffffffffffffff2222222222222f1111111ffffffffffff11111fddddddddddddfffffffffffffffffffffffffffffff2
+    22222222222222222ffff2ffffffffffffffffffdddddddddddddddddddffffffffffffffffff22f222222222221111111ffffffffffff11111dddddddddddddfffffffffffffffffffffffffffffff2
+    2222222222222222fffffddffffffffffffff111ddddddddddddddddddfffffffffffffffff1112f2222222222211111112fffffffffdd11111dddddddddddddffffffffffffffffffffffffffffffff
+    222222222222222ffffffddffffffffffffdf111ddddddddddddddddddffffffffffffffff1111222222222222222222222fffffffffddddddddddddddddddddffffffffffffffffffffffffffffffff
+    222222222222222111ff2dffffffffffffddd111ddddddddddddddddddffffffffffffffff111122222222222222222222ffffffffffddddddddddddddddddddf11111111fffffffffffffffff111111
+    222222222222222111f22fffffffffffffdddddddddddddddddddddddffffffffffffffff211112222222222222222222ffffffffffffdddddddddddddddddddf11111111ffffffffffffffddd111111
+    22222222222222211122dffffffffffffddddddddddddddddddddddd1111fffffffffffff2222222222222222222222222fffffffffffdddddddddddddddddddf11111111ffffffffffffffddd111111
+    22222222222222222222dffffffffffffddddddddddddddddddddddd1111ffffffffffffff222222222222222222222222ffffffffffddddddddddddddddddddddddddddffffffffffffffdddddddd22
+    22222222222222222222dfffffffffffdddddddddddddddddddddddd1111ffffffffffffff22222222222222222222222ffffffffffffdddddddddddddddddddddddddddfffffffffffffffddddddd22
+    2222222222222222222ddfffffffffffdddddddddddddddddddddddddddddffffffffffffff2222222222222222222222ffffffffffffddddddddddddddddddddddddddffffffffffffffffddddddd22
+    2222222222222222222dfffffffffffffdddddddddddddddddddddddddddfffffffffffffff2222222222222222222222ffffffffffffddddddddddddddddddddddddddfffffffffffffffffdddddd22
+    2222222222222222222dfffffffffffffdddddddddddddddddddddddddddffffffffffffffff22222222222222222222ffffffffffffffddddddddddddddddddddddddfffffffffdffffffffdddddd22
+    222222222222222222ddffffffffffffffdddddddddddddddddddddddddffffffff2ffffffff22222222222222222222fffffffdfffffffdddddddddddddddddddddddffffffffdddffffffffddddd22
+    222222222222222222dfffffffffffffffdddddddddddddddddddddddddfffffff22ffffffff22222222222222222222ffffff2ddffffffdddddddddddddddddddddddfffffffddddffffffffddddd22
+    222222222222222222dffffffffffffffffddddddddddddddddddddddddfffffff22ffffffff22222222222222222222ffffff2dddfffffdddddddddddddddddddddddfffffffdddddfffffffddddd22
+    22222222222222222ddffffffffffffffffddddddddddddddddddddddddfffffff22ffffffff222222222222222222222fff2222ddffffddddddddddddddddddddddddffffffddddddfffffffddddd22
+    22222222222222222dffffffffddddfffffddddddddddddddddddddddddfffffff22ffffffff222222222222222222222f222222ddddddddddddddddddddddddddddddffffffdddddddffffffddddddd
+    2222222222222222dffffffffddddddfffffdddddddddddddddddddddddddfff2222f22fffff22222222222222222222222222222dddddddddddddddddddddddddddddfffddddddddddddddddddddddd
+    2222222222222222fffffffffddddddfffffddddddddddddddddddddddddffff22222222ffff222222222222222222222222222222dddddddddddddddddddddddddddddddddddddddddddddddddddddd
+    2222222222222222ffffffddddddddddffffddddddddddddddddddddddddffff22222222ffff222222222222222222222222222222dddddddddddddddddddddddddddddddddddddddddddddddddddddd
+    222222222222222dffffdddddddddddddfffddddddddddddddddddddddddffff2222222222222222222222222222222222222222222ddddddddddddddddddddddddddddddddddddddddddddddddddddd
     `)
 story.printText("Christopher: Okay we're here guys!", 80, 115)
 story.printDialog("Christopher: Guys?...", 80, 115, 50, 150)
@@ -1497,7 +1531,7 @@ Player_Christopher = sprites.create(img`
 scene.cameraFollowSprite(Player_Christopher)
 controller.moveSprite(Player_Christopher)
 tiles.placeOnRandomTile(Player_Christopher, assets.tile`myTile8`)
-game.splash("Complete the balloon game to escape! Dont get caught by the killer clowns!")
+game.splash("Complete and unlock parts of the door by solving puzzles")
 Spawn_Clownz()
 Water_key()
 KeyCode()
